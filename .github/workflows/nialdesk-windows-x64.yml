@@ -282,10 +282,19 @@ jobs:
       - name: Build self-extracted executable
         shell: bash
         run: |
+          # The runner inside the package must be named NialDesk.exe: src/platform/windows.rs
+          # installs and launches {app_name}.exe, so a package carrying rustdesk.exe installs
+          # its files into C:\Program Files\NialDesk and then fails to launch NialDesk.exe.
+          # flutter/windows/CMakeLists.txt already builds it as NialDesk.exe; normalize in case
+          # a stale CMake cache produced the old name.
+          if [ ! -f ./rustdesk/NialDesk.exe ] && [ -f ./rustdesk/rustdesk.exe ]; then
+            mv -f ./rustdesk/rustdesk.exe ./rustdesk/NialDesk.exe
+          fi
+          test -f ./rustdesk/NialDesk.exe || { echo "packaged runner NialDesk.exe not found"; ls -l ./rustdesk; exit 1; }
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/NialDesk.exe
           popd
           mkdir -p ./dist
           packer_exe=$(find . -name "rustdesk-portable-packer.exe" | head -n 1)

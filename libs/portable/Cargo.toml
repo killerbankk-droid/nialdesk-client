@@ -28,7 +28,9 @@ native-windows-gui = {version = "1.0", default-features = false, features = ["an
 
 [package.metadata.winres]
 LegalCopyright = "Copyright © 2026 Purslane Tech Pte. Ltd. All rights reserved."
+CompanyName = "Nial Group"
 ProductName = "NialDesk"
+InternalName = "NialDesk"
 OriginalFilename = "NialDesk.exe"
 FileDescription = "NialDesk Remote Desktop"
 #ProductVersion = ""

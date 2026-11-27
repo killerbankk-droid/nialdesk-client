@@ -4,7 +4,10 @@ project(rustdesk LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "rustdesk")
+# Must match the name src/platform/windows.rs installs and launches
+# ({app_name}.exe, i.e. NialDesk.exe): the installed copy is what the shortcuts,
+# the tray autostart entry and the service command line point at.
+set(BINARY_NAME "NialDesk")
 
 # Explicitly opt into modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
